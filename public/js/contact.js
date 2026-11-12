@@ -1,5 +1,8 @@
 const form = document.getElementById('contact-form');
 const statusEl = document.getElementById('form-status');
+const formLoadedAt = form.elements.form_loaded_at;
+
+formLoadedAt.value = Date.now();
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -24,6 +27,7 @@ form.addEventListener('submit', async (event) => {
     }
 
     form.reset();
+    formLoadedAt.value = Date.now();
     statusEl.textContent = "Thanks, we'll be in touch within one business day.";
     statusEl.classList.add('form-status--success');
   } catch (error) {
