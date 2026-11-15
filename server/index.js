@@ -10,6 +10,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '..', 'public'), { extensions: ['html'] }));
 
 app.post('/contact', (req, res) => {
+  if (typeof req.body.website === 'string' && req.body.website.trim()) {
+    return res.json({ ok: true });
+  }
+
+  const formLoadedAt = Number(req.body.form_loaded_at);
+  if (
+    typeof req.body.form_loaded_at !== 'string' ||
+    !req.body.form_loaded_at.trim() ||
+    !Number.isFinite(formLoadedAt) ||
+    Date.now() - formLoadedAt < 3000
+  ) {
+    return res.json({ ok: true });
+  }
+
   const name = (req.body.name || '').trim();
   const email = (req.body.email || '').trim();
   const message = (req.body.message || '').trim();
